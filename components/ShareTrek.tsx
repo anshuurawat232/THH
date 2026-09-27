@@ -1,0 +1,2 @@
+'use client';
+export function ShareTrek(){const share=async()=>{const data={title:document.title,url:window.location.href};try{if(navigator.share)await navigator.share(data);else if(navigator.clipboard){await navigator.clipboard.writeText(data.url);alert('Trek link copied.')}}catch(error){if(error instanceof Error&&error.name!=='AbortError')alert('Could not share this trek right now.')}};return <button className="btn btn-outline" style={{width:'100%',marginTop:10}} onClick={share}>Share Trek</button>}

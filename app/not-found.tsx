@@ -1,0 +1,1 @@
+import Link from 'next/link';export default function NotFound(){return <section className="section"><div className="container" style={{textAlign:'center'}}><div style={{fontSize:'5rem'}}>🏔️</div><h1 className="title">Trail not found.</h1><p className="muted">This path doesn't seem to exist.</p><Link className="btn btn-dark" href="/treks">Back to Treks</Link></div></section>}
