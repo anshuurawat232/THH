@@ -66,3 +66,125 @@
 @media(min-width:851px){.hero-video{inset:auto;left:50%;top:50%;width:max(56.25vw,620px);height:100vw;transform:translate(-50%,-50%) rotate(-90deg);object-fit:cover;object-position:center}}
 
 @media(min-width:851px){.hero-layout{transform:translateY(195px)}}
+
+/* Responsive refinements shared by every route. Keep the established desktop
+   composition above 1100px and progressively reduce columns below it. */
+@media (max-width: 1100px) and (min-width: 851px) {
+  .container { width: min(100% - 40px, 1180px); }
+  .header-inner { gap: 14px; }
+  .brand img { width: clamp(160px, 17vw, 190px); }
+  .desktop-nav { gap: 11px; margin-left: 8px; font-size: .88rem; }
+  .header-actions { gap: 9px; }
+  .header-actions .btn { padding: 11px 15px; }
+  .hero-layout { gap: 22px; }
+  .hero-route { min-height: 340px; }
+  .grid-4 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 850px) {
+  .container, .hero-layout { width: min(100% - 36px, 720px); }
+  .section { padding: 60px 0; }
+  .detail-hero { padding: 84px 0 48px; }
+  .dashboard > *, .two > *, .grid > *, .planner-layout > *, .account-dashboard > * { min-width: 0; }
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .founder-grid { grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); gap: 24px; }
+  .profile-card { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 20px; }
+  .account-dashboard { grid-template-columns: minmax(0, 1fr); }
+  .invoice-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .invoice-trip-details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .admin-grid, .admin-lists { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-panel { min-width: 0; }
+  .hero { min-height: 620px; }
+  .hero-layout { grid-template-columns: minmax(0, 1.15fr) minmax(210px, .85fr); }
+  .hero-route { min-height: 320px; }
+}
+
+@media (max-width: 640px) {
+  html, body { max-width: 100%; overflow-x: clip; }
+  .container, .hero-layout { width: calc(100% - 28px); }
+  .section { padding: 46px 0; }
+  .title { font-size: clamp(2.2rem, 10vw, 3rem); line-height: 1.02; overflow-wrap: anywhere; }
+  .section-title { font-size: clamp(1.55rem, 7vw, 2rem); line-height: 1.12; overflow-wrap: anywhere; }
+  .eyebrow { font-size: .68rem; letter-spacing: .1em; }
+  .pad { padding: 18px; }
+  .btn { min-height: 44px; padding: 12px 16px; }
+  img, video { max-width: 100%; }
+  .row { flex-wrap: wrap; }
+  .row > * { min-width: 0; }
+  .grid-3, .grid-4, .stats, .searchbox, .footer-grid,
+  .founder-grid, .profile-card, .admin-grid, .admin-lists,
+  .planner-fields, .booking-overview { grid-template-columns: minmax(0, 1fr); }
+  .searchbox { gap: 8px; padding: 11px; }
+  .searchbox .field, .searchbox select, .searchbox button { min-width: 0; width: 100%; }
+  .hero { height: auto; min-height: min(760px, calc(100svh - 62px)); padding: 0; }
+  .hero-video { inset: 0; width: 100%; height: 100%; transform: none; object-fit: cover; object-position: center; }
+  .hero-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-top: 56px; padding-bottom: 32px; }
+  .hero-copy .title { max-width: 12ch; }
+  .hero-route { min-height: 210px; max-height: 250px; padding: 18px; }
+  .hero-copy > div { gap: 8px; }
+  .hero-copy > div .btn { flex: 1 1 130px; }
+  .floating { right: 10px; left: auto; bottom: max(10px, env(safe-area-inset-bottom)); }
+  .floating button { width: auto; max-width: calc(100vw - 20px); min-height: 44px; padding: 12px 16px; }
+  .footer { padding: 42px 0 24px; }
+  .footer-grid { gap: 20px; }
+  .detail-hero { padding: 70px 0 40px; }
+  .detail-hero .title { max-width: 14ch; }
+  .founder-grid { gap: 22px; }
+  .founder-portrait { grid-row: auto; }
+  .founder-portrait img { width: 100%; height: auto; max-height: 420px; object-fit: cover; }
+  .booking-card { grid-template-columns: minmax(0, 1fr); }
+  .booking-card > *, .booking-info > *, .booking-info .row > * { min-width: 0; }
+  .booking-info .row { flex-wrap: wrap; }
+  .booking-actions { width: 100%; }
+  .booking-actions .btn { flex: 1 1 140px; }
+  .account-side { max-width: calc(100vw - 28px); }
+  .account-stats { grid-template-columns: minmax(0, 1fr); }
+  .planner-summary .card { display: block; }
+  .planner-heading .title, .account-heading .title { font-size: clamp(2.1rem, 9vw, 2.7rem); }
+  .planner-trek-preview { flex-wrap: wrap; }
+  .planner-trek-preview > div { min-width: 0; }
+  .invoice-header, .invoice-title, .invoice-brand { align-items: flex-start; }
+  .invoice-header { flex-wrap: wrap; }
+  .invoice-table-head, .invoice-line { gap: 8px; }
+  .invoice-line > * { min-width: 0; overflow-wrap: anywhere; }
+  .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 100px; }
+  .gallery-lightbox { max-width: 100vw; }
+  .gallery-lightbox figure img { max-width: calc(100vw - 24px); }
+  .admin-data-grid, .admin-booking-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-booking-card, .admin-lead-card, .admin-invoice-preview { min-width: 0; }
+  .lead-overlay { padding: 12px; }
+  .lead-popup { width: min(440px, 100%); max-height: calc(100svh - 24px); padding: 24px 19px 20px; }
+  .lead-form .field { min-height: 44px; }
+  .mobile-nav { max-height: calc(100svh - 62px); overflow-y: auto; padding: 4px 14px 14px; }
+  .mobile-nav a { min-height: 44px; display: flex; align-items: center; }
+}
+
+@media (max-width: 380px) {
+  .container, .hero-layout { width: calc(100% - 22px); }
+  .header-inner { gap: 5px; }
+  .brand img { width: 132px; }
+  .header-actions { gap: 6px; }
+  .header-actions > a:not(.book-link) { padding: 3px; }
+  .header-actions > .book-link { display: none; }
+  .header-actions > a svg { width: 17px; height: 17px; }
+  .mobile-menu { padding: 6px; }
+  .grid-3, .grid-4, .stats, .footer-grid { grid-template-columns: minmax(0, 1fr); }
+  .invoice-meta, .invoice-trip-details, .admin-data-grid, .admin-booking-stats { grid-template-columns: minmax(0, 1fr); }
+  .account-stat { min-width: 0; }
+  .admin-booking-card > summary { grid-template-columns: minmax(0, 1fr); }
+  .admin-booking-ref, .admin-booking-total { grid-column: auto; grid-row: auto; }
+}
+
+@media (min-width: 641px) and (max-width: 850px) {
+  .hero { min-height: 670px; }
+  .hero-layout { grid-template-columns: minmax(0, 1.1fr) minmax(220px, .9fr); gap: 18px; }
+  .hero-route { min-height: 300px; }
+  .searchbox { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .searchbox > * { min-width: 0; }
+  .founder-grid { grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); }
+  .booking-card { grid-template-columns: 145px minmax(0, 1fr); }
+  .gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
