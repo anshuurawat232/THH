@@ -27,26 +27,27 @@ export function VisitorLeadPopup() {
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const initialVisitScheduled = useRef(false);
+  const submittedThisVisit = useRef(false);
 
   useEffect(() => {
     if (pathname === '/admin' || pathname.startsWith('/admin/') || pathname === '/booking') { setOpen(false); return; }
     const hasBooked = () => localStorage.getItem(BOOKED_SUPPRESSION_KEY) === 'true';
     const current = readPromptState();
-    if (current.submitted || hasBooked()) { setOpen(false); setSubmitted(current.submitted); return; }
-    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
-    if (navigation?.type === 'reload' && current.promptVisible !== false) {
+    if (hasBooked() || submittedThisVisit.current) { setOpen(false); return; }
+    // Start a fresh five-second prompt on each full site visit or browser refresh.
+    // Keep the ref so normal in-app route changes do not restart that timer.
+    if (!initialVisitScheduled.current) {
+      initialVisitScheduled.current = true;
       current.nextPromptAt = Date.now() + INITIAL_DELAY;
-      localStorage.setItem(LEAD_PROMPT_STATE_KEY, JSON.stringify(current));
-    }
-    if (!current.hasPrompted && !current.nextPromptAt) {
-      current.nextPromptAt = Date.now() + INITIAL_DELAY;
+      current.submitted = false;
       localStorage.setItem(LEAD_PROMPT_STATE_KEY, JSON.stringify(current));
     }
 
     const show = () => {
       if (hasBooked()) return;
       const latest = readPromptState();
-      if (latest.submitted) return;
+      if (submittedThisVisit.current) return;
       localStorage.setItem(LEAD_PROMPT_STATE_KEY, JSON.stringify({ ...latest, hasPrompted: true, promptVisible: true, nextPromptAt: Date.now() + REPEAT_DELAY }));
       setOpen(true);
     };
@@ -88,6 +89,7 @@ export function VisitorLeadPopup() {
     try { saved = readVisitorLeads(JSON.parse(localStorage.getItem(VISITOR_LEADS_KEY) || '[]')); } catch { saved = []; }
     localStorage.setItem(VISITOR_LEADS_KEY, JSON.stringify([lead, ...saved]));
     localStorage.setItem(LEAD_PROMPT_STATE_KEY, JSON.stringify({ hasPrompted: true, nextPromptAt: 0, submitted: true, promptVisible: false }));
+    submittedThisVisit.current = true;
     setSubmitted(true); setError('');
   };
 
@@ -95,7 +97,7 @@ export function VisitorLeadPopup() {
   return <div className="lead-overlay" role="presentation"><section className="lead-popup" role="dialog" aria-modal="true" aria-labelledby="lead-popup-title" aria-describedby="lead-popup-description">
     <button className="lead-close" aria-label="Close contact form" onClick={dismiss}><X size={19}/></button>
     {submitted ? <div className="lead-thanks"><span className="lead-icon"><Mountain size={21}/></span><span className="eyebrow">Thanks for reaching out</span><h2 id="lead-popup-title">We’ll be in touch.</h2><p className="muted">Your details have been saved. Start exploring while we prepare your trail suggestions.</p><button className="btn btn-dark" onClick={() => setOpen(false)}>Continue exploring</button></div> : <>
-      <Image className="lead-logo" src="/himalayan-hikes-logo.png" alt="The Himalayan Hikes" width={48} height={48} priority/><span className="eyebrow">A little help for your next journey</span><h2 id="lead-popup-title">Find your Himalayan trail.</h2><p id="lead-popup-description" className="lead-description">Tell us how to reach you and our team can help you choose a trek.</p>
+      <Image className="lead-logo" src="/the-himalayan-hikes-mark.png" alt="The Himalayan Hikes" width={48} height={42} priority/><span className="eyebrow">A little help for your next journey</span><h2 id="lead-popup-title">Find your Himalayan trail.</h2><p id="lead-popup-description" className="lead-description">Tell us how to reach you and our team can help you choose a trek.</p>
       <form onSubmit={submit} className="lead-form" noValidate>
         <label>Your name <span>required</span><input className="field" autoComplete="name" maxLength={80} required value={name} onChange={event => setName(event.target.value)} placeholder="Name"/></label>
         <label>Phone number <span>or email</span><input className="field" type="tel" inputMode="tel" autoComplete="tel" maxLength={24} value={phone} onChange={event => setPhone(event.target.value)} placeholder="+91 98765 43210"/></label>

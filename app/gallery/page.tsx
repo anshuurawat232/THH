@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 type GalleryPhoto = { src: string; alt: string; place: string; category: 'Trails' | 'Valleys' | 'Temples' };
 
 const photos: GalleryPhoto[] = [
+  { src: '/himalayan-snow-mountain.jpeg', alt: 'Snow-covered Himalayan peaks above a winter forest', place: 'Winter Himalayas', category: 'Valleys' },
   { src: 'https://thehimalayanhikes.com/wp-content/uploads/2025/05/pexels-indu-bikash-sarker-116278202-29375782-scaled.jpg', alt: 'A high Himalayan mountain trail beneath snow-covered peaks', place: 'High Himalayan trail', category: 'Trails' },
   { src: 'https://thehimalayanhikes.com/wp-content/uploads/2025/05/pexels-gokul-gurang-224181659-15896015-scaled.jpg', alt: 'Trekkers walking through a dramatic mountain landscape', place: 'Mountain trail', category: 'Trails' },
   { src: 'https://thehimalayanhikes.com/wp-content/uploads/2025/05/pexels-shayantan-chanda-532646409-16786632-scaled.jpg', alt: 'A pilgrim route winding through the high Himalayas', place: 'Kedarnath Yatra', category: 'Temples' },
@@ -37,6 +38,14 @@ const photos: GalleryPhoto[] = [
   { src: 'https://thehimalayanhikes.com/wp-content/uploads/2025/04/hike-in-himalaya-BNZLZS5.jpg', alt: 'A hiker looking out across Himalayan peaks', place: 'Himalayan viewpoint', category: 'Trails' },
 ];
 
+const videos = [
+  { src: '/videos/himalayan-02.mp4', title: 'Trail film 02' },
+  { src: '/videos/himalayan-03.mp4', title: 'Trail film 03' },
+  { src: '/videos/himalayan-04.mp4', title: 'Trail film 04' },
+  { src: '/videos/himalayan-05.mp4', title: 'Trail film 05' },
+  { src: '/videos/himalayan-06.mp4', title: 'Trail film 06' },
+];
+
 const filters = ['All moments', 'Trails', 'Valleys', 'Temples'] as const;
 type Filter = typeof filters[number];
 
@@ -62,6 +71,7 @@ export default function GalleryPage() {
     <section className="detail-hero gallery-hero"><div className="container"><span className="tag">Life on the trail</span><h1 className="title">The Himalayas, as we see them.</h1><p>Small moments, high ridgelines, quiet valleys and sacred places from journeys across Uttarakhand.</p></div></section>
     <section className="section gallery-section"><div className="container">
       <div className="gallery-intro"><div><span className="eyebrow">Field notes · 2025–26</span><h2 className="section-title">A little closer to the mountains.</h2></div><p className="muted">Browse the places and people that make every trek memorable.</p></div>
+      <section className="gallery-films" aria-labelledby="gallery-films-title"><div className="gallery-films-heading"><div><span className="eyebrow">Mountain moments in motion</span><h2 id="gallery-films-title" className="section-title">Watch the trail unfold.</h2></div><p className="muted">Short films from the Himalayan journeys we love.</p></div><div className="gallery-film-grid">{videos.map((video,index)=><article className="gallery-film card" key={video.src}><video controls playsInline preload="metadata" poster="/himalayan-snow-mountain.jpeg" aria-label={video.title}><source src={video.src} type="video/mp4"/>Your browser does not support video playback.</video><div className="gallery-film-caption"><span className="eyebrow">Himalayan film · {String(index+2).padStart(2,'0')}</span><h3>{video.title}</h3></div></article>)}</div></section>
       <div className="gallery-filters" role="group" aria-label="Filter gallery by type">{filters.map(item=><button key={item} className={`gallery-filter ${filter===item?'active':''}`} aria-pressed={filter===item} onClick={()=>{setFilter(item);setActiveIndex(null);}}>{item}</button>)}</div>
       <div className="gallery-grid">{visiblePhotos.map((photo,index)=><button className="gallery-item" key={photo.src} onClick={()=>setActiveIndex(index)} aria-label={`View ${photo.place} photo`}><img src={photo.src} alt={photo.alt} loading={index<6?'eager':'lazy'}/><span className="gallery-item-shade"/><span className="gallery-item-caption"><small>{photo.category}</small><b>{photo.place}</b></span><span className="gallery-expand" aria-hidden="true">↗</span></button>)}</div>
       <div className="gallery-end-card"><span className="eyebrow">Find your own view</span><h2>Some places stay with you.</h2><p>Choose a trail and make a few mountain memories of your own.</p><a className="btn btn-primary" href="/treks">Explore treks</a></div>
